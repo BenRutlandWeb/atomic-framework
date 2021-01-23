@@ -28,6 +28,16 @@ class MailServiceProvider extends ServiceProvider
                 $this->setGlobalAddress($mailer, $app['config']['mail'], $type);
             }
 
+            // set the global from address and name independently to the mailer
+            // class. This will make ALL emails be sent from the global from
+            // rather than just mails sent with the mailer class.
+            $app['events']->listen('wp_mail_from', function () use ($app) {
+                return $app['config']['mail.from.address'];
+            });
+            $app['events']->listen('wp_mail_from_name', function () use ($app) {
+                return $app['config']['mail.from.name'];
+            });
+
             return $mailer;
         });
 
