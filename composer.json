@@ -24,10 +24,10 @@
   },
   "autoload": {
     "psr-4": {
-      "Atomic\\": "atomic/src/"
+      "Atomic\\": "src/"
     },
     "files": [
-      "atomic/src/Support/helpers.php"
+      "src/Support/helpers.php"
     ]
   }
 }
