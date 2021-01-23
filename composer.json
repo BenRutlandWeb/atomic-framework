@@ -17,10 +17,10 @@
   "prefer-stable": true,
   "require": {
     "php": "^7.3",
-    "illuminate/container": "9.x-dev",
-    "erusev/parsedown": "9999999-dev",
-    "symfony/finder": "9999999-dev",
-    "symfony/http-foundation": "9999999-dev"
+    "illuminate/container": "^8.24",
+    "erusev/parsedown": "^1.7",
+    "symfony/finder": "^5.2",
+    "symfony/http-foundation": "^5.2"
   },
   "autoload": {
     "psr-4": {
