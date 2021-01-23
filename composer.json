@@ -1,0 +1,33 @@
+{
+  "name": "atomic/framework",
+  "description": "WordPress theme framework for elegant development.",
+  "keywords": [
+    "framework",
+    "wordpress",
+    "atomic"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Ben Rutland Web",
+      "email": "info@benrutlandweb.co.uk"
+    }
+  ],
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "require": {
+    "php": "^7.3",
+    "illuminate/container": "9.x-dev",
+    "erusev/parsedown": "9999999-dev",
+    "symfony/finder": "9999999-dev",
+    "symfony/http-foundation": "9999999-dev"
+  },
+  "autoload": {
+    "psr-4": {
+      "Atomic\\": "atomic/src/"
+    },
+    "files": [
+      "atomic/src/Support/helpers.php"
+    ]
+  }
+}

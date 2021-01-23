@@ -1,0 +1,20 @@
+<?php
+
+namespace {{ namespace }};
+
+use Atomic\Http\Request;
+use Atomic\Routing\Controller;
+
+class {{ class }} extends Controller
+{
+    /**
+     * Handle the incoming request.
+     *
+     * @param \Atomic\Http\Request $request
+     * @return mixed
+     */
+    public function __invoke(Request $request)
+    {
+        //
+    }
+}

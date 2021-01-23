@@ -1,0 +1,32 @@
+<?php
+
+namespace {{ namespace }};
+
+use Atomic\WordPress\Shortcode;
+
+class {{ class }} extends Shortcode
+{
+    /**
+     * The shortcode tag
+     *
+     * @var string
+     */
+    protected $tag = '{{ tag }}';
+
+    /**
+     * An array of allowed attributes and defaults
+     *
+     * @var array
+     */
+    protected $defaultAttributes = [];
+
+    /**
+     * Handle the shortcode
+     *
+     * @return string
+     */
+    public function handle(): string
+    {
+        return view('shortcodes.{{ tag }}');
+    }
+}

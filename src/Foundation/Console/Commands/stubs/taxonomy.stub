@@ -1,0 +1,28 @@
+<?php
+
+namespace {{ namespace }};
+
+use Atomic\WordPress\Taxonomy;
+
+class {{ class }} extends Taxonomy
+{
+    /**
+     * The taxonomy name
+     *
+     * @var string
+     */
+    protected $name = '{{ name }}';
+
+    /**
+     * Options for taxonomy registration
+     *
+     * @var array
+     */
+    protected $options = [
+        'description'       => '',
+        'public'            => {{ public }},
+        'hierarchical'      => {{ hierarchical }},
+        'show_admin_column' => true,
+        'show_in_rest'      => true,
+    ];
+}

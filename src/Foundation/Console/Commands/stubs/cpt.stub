@@ -1,0 +1,35 @@
+<?php
+
+namespace {{ namespace }};
+
+use Atomic\WordPress\Cpt;
+
+class {{ class }} extends Cpt
+{
+    /**
+     * The post type
+     *
+     * @var string
+     */
+    protected $name = '{{ name }}';
+
+    /**
+     * The taxonomies to register with the post type
+     *
+     * @var array
+     */
+    protected $taxonomies = [];
+
+    /**
+     * Options for post type registration
+     *
+     * @var array
+     */
+    protected $options = [
+        'public'       => {{ public }},
+        'has_archive'  => {{ archive }},
+        'show_in_rest' => {{ gutenberg }},
+        'menu_icon'    => '{{ icon }}',
+        'supports'     => ['title', 'editor', 'author', 'thumbnail'],
+    ];
+}
