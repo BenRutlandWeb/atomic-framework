@@ -1,5 +1,6 @@
 <?php
 
+use Atomic\Auth\AuthManager;
 use Atomic\Foundation\Application;
 use Atomic\Foundation\Mix;
 use Atomic\Routing\UrlGenerator;
@@ -50,6 +51,18 @@ if (!function_exists('asset')) {
     }
 }
 
+if (!function_exists('auth')) {
+    /**
+     * Get the auth object.
+     *
+     * @return \Atomic\Auth\AuthManager
+     */
+    function auth(): AuthManager
+    {
+        return app('auth');
+    }
+}
+
 if (!function_exists('base_path')) {
     /**
      * Get the application base path
@@ -76,17 +89,27 @@ if (!function_exists('collect')) {
     }
 }
 
-if (!function_exists('env')) {
+if (!function_exists('csrf_field')) {
     /**
-     * Get an envorinment variable
+     * Return the csrf field.
      *
-     * @param string $const
-     * @param mixed $default
-     * @return mixed
+     * @return string
      */
-    function env(string $const, $default = null)
+    function csrf_field(): string
     {
-        return defined($const) ? constant($const) : $default;
+        return wp_nonce_field('_token', '_token', true, false);
+    }
+}
+
+if (!function_exists('csrf_token')) {
+    /**
+     * Return the csrf token.
+     *
+     * @return string
+     */
+    function csrf_token(): string
+    {
+        return wp_create_nonce('_token');
     }
 }
 
@@ -116,6 +139,20 @@ if (!function_exists('dump')) {
     }
 }
 
+if (!function_exists('env')) {
+    /**
+     * Get an envorinment variable
+     *
+     * @param string $const
+     * @param mixed $default
+     * @return mixed
+     */
+    function env(string $const, $default = null)
+    {
+        return defined($const) ? constant($const) : $default;
+    }
+}
+
 if (!function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
@@ -126,6 +163,19 @@ if (!function_exists('event')) {
     function event(...$args)
     {
         return app('events')->dispatch(...$args);
+    }
+}
+
+if (!function_exists('method_field')) {
+    /**
+     * Return the method field.
+     *
+     * @param string $method The HTTP method
+     * @return string
+     */
+    function method_field(string $method): string
+    {
+        return '<input type="hidden" name="_method" value="' . esc_attr($method) . '" />';
     }
 }
 
