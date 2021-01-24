@@ -10,7 +10,7 @@
 
     <ini name="memory_limit" value="64M"/>
 
-    <rule ref="psr12"/>
+    <rule ref="psr-12"/>
 
     <rule ref="Internal.NoCodeFound">
         <severity>0</severity>
