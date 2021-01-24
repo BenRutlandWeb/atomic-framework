@@ -46,7 +46,7 @@ class MakeCpt extends GeneratorCommand
 
         if ($this->option('model') && $this->option('force')) {
             $this->call("make:model {$name} --posttype --force");
-        } else if ($this->option('model')) {
+        } elseif ($this->option('model')) {
             $this->call("make:model {$name} --posttype");
         }
     }

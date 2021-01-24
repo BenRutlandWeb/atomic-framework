@@ -12,7 +12,7 @@ class Application extends Container
     /**
      * The application version
      */
-    const VERSION = '0.1.0';
+    protected const VERSION = '0.1.0';
 
     /**
      * The application namespace
@@ -97,8 +97,12 @@ class Application extends Container
      */
     public function registerCoreContainerAliases(): void
     {
-        foreach ([
-            'app'         => [self::class, \Illuminate\Contracts\Container\Container::class, \Psr\Container\ContainerInterface::class],
+        $map = [
+            'app'         => [
+                self::class,
+                \Illuminate\Contracts\Container\Container::class,
+                \Psr\Container\ContainerInterface::class
+            ],
             'auth'        => [\Atomic\Auth\AuthManager::class],
             'config'      => [\Atomic\Config\Repository::class],
             'console'     => [\Atomic\Console\Application::class],
@@ -113,7 +117,9 @@ class Application extends Container
             'view'        => [\Atomic\View\View::class],
             'wp.action'   => [\Atomic\WordPress\Action::class],
             'wp.filter'   => [\Atomic\WordPress\Filter::class],
-        ] as $key => $aliases) {
+        ];
+
+        foreach ($map as $key => $aliases) {
             foreach ($aliases as $alias) {
                 $this->alias($key, $alias);
             }

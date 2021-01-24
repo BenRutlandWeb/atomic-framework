@@ -57,7 +57,7 @@ class WordPressServiceProvider extends ServiceProvider
 
         $namespace = $this->app->getNamespace();
 
-        foreach ((new Finder)->in($paths)->files() as $postType) {
+        foreach ((new Finder())->in($paths)->files() as $postType) {
             $postType = $namespace . str_replace(
                 ['/', '.php'],
                 ['\\', ''],

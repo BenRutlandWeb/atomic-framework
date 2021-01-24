@@ -114,7 +114,7 @@ abstract class Mailable implements Renderable
      * @param string|null $name
      * @return self
      */
-    public function bcc($address, ?string  $name = null): self
+    public function bcc($address, ?string $name = null): self
     {
         return $this->setAddress($address, $name, 'bcc');
     }

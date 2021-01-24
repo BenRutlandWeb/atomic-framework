@@ -69,7 +69,7 @@ abstract class Shortcode
      */
     public function resolveShortcode($attrs, string $content = '')
     {
-        $this->attributes = shortcode_atts($this->defaultAttributes, $attrs,  $this->tag);
+        $this->attributes = shortcode_atts($this->defaultAttributes, $attrs, $this->tag);
         $this->content = $content;
 
         return $this->callhandler();
