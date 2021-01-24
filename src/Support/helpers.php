@@ -1,6 +1,8 @@
 <?php
 
+use Atomic\Auth\AuthManager;
 use Atomic\Foundation\Application;
+use Atomic\Foundation\Mix;
 use Atomic\Routing\UrlGenerator;
 use Atomic\Support\Collection;
 
@@ -49,6 +51,18 @@ if (!function_exists('asset')) {
     }
 }
 
+if (!function_exists('auth')) {
+    /**
+     * Get the auth object.
+     *
+     * @return \Atomic\Auth\AuthManager
+     */
+    function auth(): AuthManager
+    {
+        return app('auth');
+    }
+}
+
 if (!function_exists('base_path')) {
     /**
      * Get the application base path
@@ -75,17 +89,40 @@ if (!function_exists('collect')) {
     }
 }
 
-if (!function_exists('env')) {
+if (!function_exists('config')) {
     /**
-     * Get an envorinment variable
+     * Get an item from the config
      *
-     * @param string $const
-     * @param mixed $default
+     * @param string $key
      * @return mixed
      */
-    function env(string $const, $default = null)
+    function config(string $key)
     {
-        return defined($const) ? constant($const) : $default;
+        return app('config')->get($key);
+    }
+}
+
+if (!function_exists('csrf_field')) {
+    /**
+     * Return the csrf field.
+     *
+     * @return string
+     */
+    function csrf_field(): string
+    {
+        return wp_nonce_field('_token', '_token', true, false);
+    }
+}
+
+if (!function_exists('csrf_token')) {
+    /**
+     * Return the csrf token.
+     *
+     * @return string
+     */
+    function csrf_token(): string
+    {
+        return wp_create_nonce('_token');
     }
 }
 
@@ -115,6 +152,20 @@ if (!function_exists('dump')) {
     }
 }
 
+if (!function_exists('env')) {
+    /**
+     * Get an envorinment variable
+     *
+     * @param string $const
+     * @param mixed $default
+     * @return mixed
+     */
+    function env(string $const, $default = null)
+    {
+        return defined($const) ? constant($const) : $default;
+    }
+}
+
 if (!function_exists('event')) {
     /**
      * Dispatch an event and call the listeners.
@@ -125,6 +176,32 @@ if (!function_exists('event')) {
     function event(...$args)
     {
         return app('events')->dispatch(...$args);
+    }
+}
+
+if (!function_exists('method_field')) {
+    /**
+     * Return the method field.
+     *
+     * @param string $method The HTTP method
+     * @return string
+     */
+    function method_field(string $method): string
+    {
+        return '<input type="hidden" name="_method" value="' . esc_attr($method) . '" />';
+    }
+}
+
+if (!function_exists('mix')) {
+    /**
+     * Get the path to a versioned Mix file.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function mix(string $path): string
+    {
+        return app(Mix::class)($path);
     }
 }
 
@@ -154,6 +231,24 @@ if (!function_exists('route')) {
     function route($name, $parameters = [], bool $absolute = true): string
     {
         return app('url')->route($name, $parameters, $absolute);
+    }
+}
+
+if (!function_exists('svg')) {
+    /**
+     * Return the contents of an SVG
+     *
+     * @param string $path
+     * @return string
+     */
+    function svg(string $path): string
+    {
+        $file = base_path(config('app.asset_url') . "/{$path}.svg");
+
+        if (app('files')->exists($file)) {
+            return app('files')->get($file);
+        }
+        return '';
     }
 }
 
