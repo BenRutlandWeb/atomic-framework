@@ -44,8 +44,12 @@ class UrlGenerator
      * @param \Atomic\Http\Request $request
      * @param string|null $assetRoot
      */
-    public function __construct(RouteCollection $routes, RouteCollection $ajaxRoutes, Request $request, ?string $assetRoot = null)
-    {
+    public function __construct(
+        RouteCollection $routes,
+        RouteCollection $ajaxRoutes,
+        Request $request,
+        ?string $assetRoot = null
+    ) {
         $this->routes = $routes;
         $this->ajaxRoutes = $ajaxRoutes;
         $this->request = $request;

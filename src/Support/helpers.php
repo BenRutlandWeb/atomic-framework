@@ -138,7 +138,7 @@ if (!function_exists('redirect')) {
      */
     function redirect(string $url, int $status = 302): void
     {
-        app('url')->redirect($url,  $status);
+        app('url')->redirect($url, $status);
     }
 }
 

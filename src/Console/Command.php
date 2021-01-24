@@ -6,6 +6,7 @@ use Atomic\Console\Parser;
 use Atomic\Console\ProgressBar;
 use Atomic\Foundation\Application;
 use WP_CLI;
+
 use function WP_CLI\Utils\format_items as wp_cli_format_items;
 
 abstract class Command

@@ -2,7 +2,6 @@
 
 namespace Atomic\Routing;
 
-
 class RouteGroup
 {
     /**

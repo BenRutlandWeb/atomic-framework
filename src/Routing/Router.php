@@ -447,7 +447,10 @@ class Router
     public function __call(string $method, array $parameters = []): RouteRegistrar
     {
         if ($method === 'middleware') {
-            return (new RouteRegistrar($this))->attribute($method, is_array($parameters[0]) ? $parameters[0] : $parameters);
+            return (new RouteRegistrar($this))->attribute(
+                $method,
+                is_array($parameters[0]) ? $parameters[0] : $parameters
+            );
         }
         return (new RouteRegistrar($this))->attribute($method, ...$parameters);
     }

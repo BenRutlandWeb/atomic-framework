@@ -121,7 +121,7 @@ class AliasLoader
      * @param  string  $stub
      * @return string
      */
-    protected function formatFacadeStub(string $alias, string  $stub): string
+    protected function formatFacadeStub(string $alias, string $stub): string
     {
         $replacements = [
             str_replace('/', '\\', dirname(str_replace('\\', '/', $alias))),
