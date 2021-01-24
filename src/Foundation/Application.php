@@ -77,6 +77,8 @@ class Application extends Container
         $this->instance('app', $this);
 
         $this->instance(Container::class, $this);
+
+        $this->singleton(Mix::class);
     }
 
     /**

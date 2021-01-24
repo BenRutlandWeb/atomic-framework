@@ -1,6 +1,7 @@
 <?php
 
 use Atomic\Foundation\Application;
+use Atomic\Foundation\Mix;
 use Atomic\Routing\UrlGenerator;
 use Atomic\Support\Collection;
 
@@ -125,6 +126,19 @@ if (!function_exists('event')) {
     function event(...$args)
     {
         return app('events')->dispatch(...$args);
+    }
+}
+
+if (!function_exists('mix')) {
+    /**
+     * Get the path to a versioned Mix file.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function mix(string $path): string
+    {
+        return app(Mix::class)($path);
     }
 }
 

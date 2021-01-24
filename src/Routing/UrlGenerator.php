@@ -186,7 +186,7 @@ class UrlGenerator
      */
     public function asset(string $path): string
     {
-        return trim($this->assetRoot, '/') . '/' . trim($path, '/');
+        return $this->theme(trim($this->assetRoot, '/') . '/' . trim($path, '/'));
     }
 
     /**
@@ -290,5 +290,16 @@ class UrlGenerator
     public function redirect(string $url, int $status = 302): void
     {
         die(wp_redirect($url, $status));
+    }
+
+    /**
+     * Return the theme root URL
+     *
+     * @param string $path
+     * @return string
+     */
+    public function theme(string $path = ''): string
+    {
+        return get_template_directory_uri() . ($path ? '/' . trim($path, '/') : $path);
     }
 }
