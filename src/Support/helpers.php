@@ -89,6 +89,19 @@ if (!function_exists('collect')) {
     }
 }
 
+if (!function_exists('config')) {
+    /**
+     * Get an item from the config
+     *
+     * @param string $key
+     * @return mixed
+     */
+    function config(string $key)
+    {
+        return app('config')->get($key);
+    }
+}
+
 if (!function_exists('csrf_field')) {
     /**
      * Return the csrf field.
@@ -218,6 +231,24 @@ if (!function_exists('route')) {
     function route($name, $parameters = [], bool $absolute = true): string
     {
         return app('url')->route($name, $parameters, $absolute);
+    }
+}
+
+if (!function_exists('svg')) {
+    /**
+     * Return the contents of an SVG
+     *
+     * @param string $path
+     * @return string
+     */
+    function svg(string $path): string
+    {
+        $file = base_path(config('app.asset_url') . "/{$path}.svg");
+
+        if (app('files')->exists($file)) {
+            return app('files')->get($file);
+        }
+        return '';
     }
 }
 
