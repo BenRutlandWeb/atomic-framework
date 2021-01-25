@@ -243,7 +243,7 @@ if (!function_exists('svg')) {
      */
     function svg(string $path): string
     {
-        $file = base_path(config('app.asset_url') . "/{$path}.svg");
+        $file = base_path(trim(config('app.asset_url'), '/') . "/{$path}.svg");
 
         if (app('files')->exists($file)) {
             return app('files')->get($file);
@@ -256,10 +256,14 @@ if (!function_exists('url')) {
     /**
      * Return the UrlGenerator instance
      *
-     * @return \Atomic\Routing\UrlGenerator
+     * @param string $path
+     * @return \Atomic\Routing\UrlGenerator|string
      */
-    function url(): UrlGenerator
+    function url(string $path = '')
     {
+        if ($path) {
+            return app('url')->home($path);
+        }
         return app('url');
     }
 }
