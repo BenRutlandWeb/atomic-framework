@@ -17,6 +17,7 @@
   "prefer-stable": true,
   "require": {
     "php": "^7.3",
+    "brw/atomic-collection": "9999999-dev",
     "illuminate/container": "^8.24",
     "erusev/parsedown": "^1.7",
     "symfony/finder": "^5.2",
