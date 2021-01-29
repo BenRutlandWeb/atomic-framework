@@ -16,12 +16,20 @@ class Request extends SymfonyRequest implements ArrayAccess, JsonSerializable
      * @var \Closure
      */
     protected $userResolver;
+
     /**
      * The route resolver
      *
      * @var \Closure
      */
     protected $routeResolver;
+
+    /**
+     * The validato resolver
+     *
+     * @var \Closure
+     */
+    protected $validatorResolver;
 
     /**
      * Create a new HTTP request from server variables.
@@ -281,6 +289,83 @@ class Request extends SymfonyRequest implements ArrayAccess, JsonSerializable
         $this->routeResolver = $callback;
 
         return $this;
+    }
+
+    /**
+     * Validate the request inputs by the rules passed
+     *
+     * @param array $rules
+     * @param array $messages
+     * @return array
+     *
+     * @throws \Atomic\Validation\ValidationException
+     */
+    public function validate(array $rules, array $messages = [])
+    {
+        $validator = call_user_func($this->getValidatorResolver());
+
+        return $validator->validate($this, $rules, $messages);
+    }
+
+    /**
+     * Get the validator resolver callback.
+     *
+     * @return \Closure
+     */
+    public function getValidatorResolver(): Closure
+    {
+        return $this->validatorResolver ?: function () {
+            //
+        };
+    }
+
+    /**
+     * Set the validator resolver callback.
+     *
+     * @param  \Closure  $callback
+     * @return self
+     */
+    public function setValidatorResolver(Closure $callback): self
+    {
+        $this->validatorResolver = $callback;
+
+        return $this;
+    }
+
+    /**
+     * Create a new request instance from the given request.
+     *
+     * @param  \Atomic\Http\Request  $from
+     * @param  \Atomic\Http\Request|null  $to
+     * @return static
+     */
+    public static function createFrom(self $from, $to = null)
+    {
+        $request = $to ?: new static;
+
+        $files = $from->files->all();
+
+        $files = is_array($files) ? array_filter($files) : $files;
+
+        $request->initialize(
+            $from->query->all(),
+            $from->request->all(),
+            $from->attributes->all(),
+            $from->cookies->all(),
+            $files,
+            $from->server->all(),
+            $from->getContent()
+        );
+
+        $request->headers->replace($from->headers->all());
+
+        #$request->setJson($from->json());
+
+        $request->setUserResolver($from->getUserResolver());
+        $request->setRouteResolver($from->getRouteResolver());
+        $request->setValidatorResolver($from->getValidatorResolver());
+
+        return $request;
     }
 
     /**

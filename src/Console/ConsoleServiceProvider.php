@@ -21,6 +21,8 @@ class ConsoleServiceProvider extends ServiceProvider
         'command.make.mail',
         'command.make.middleware',
         'command.make.provider',
+        'command.make.request',
+        'command.make.rule',
         'command.make.shortcode',
         'command.make.subscriber',
         'command.make.taxonomy',
@@ -60,6 +62,12 @@ class ConsoleServiceProvider extends ServiceProvider
         });
         $this->app->singleton('command.make.provider', function ($app) {
             return new \Atomic\Foundation\Console\Commands\MakeProvider($app['files']);
+        });
+        $this->app->singleton('command.make.request', function ($app) {
+            return new \Atomic\Foundation\Console\Commands\MakeRequest($app['files']);
+        });
+        $this->app->singleton('command.make.rule', function ($app) {
+            return new \Atomic\Foundation\Console\Commands\MakeRule($app['files']);
         });
         $this->app->singleton('command.make.shortcode', function ($app) {
             return new \Atomic\Foundation\Console\Commands\MakeShortcode($app['files']);

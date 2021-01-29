@@ -4,7 +4,9 @@ namespace Atomic\Routing;
 
 use Closure;
 use JsonSerializable;
+use Throwable;
 use Atomic\Contracts\Support\Renderable;
+use Atomic\Foundation\Exceptions\ExceptionHandler;
 use Atomic\Http\Request;
 use Atomic\Support\Pipeline;
 
@@ -53,16 +55,23 @@ class AjaxRouter extends Router
                 return $route;
             });
 
-            $response = (new Pipeline($this->container))
-                ->send($request)
-                ->through($this->gatherRouteMiddleware($route))
-                ->then(function ($request) use ($route) {
-                    return $this->prepareResponse(
-                        $request,
-                        $this->container->call($route->action(), ['request' => $request])
-                    );
-                });
-            die($response);
+            try {
+                $response = (new Pipeline($this->container))
+                    ->send($request)
+                    ->through($this->gatherRouteMiddleware($route))
+                    ->then(function ($request) use ($route) {
+
+                        $this->container->instance('request', $request);
+
+                        return $this->prepareResponse(
+                            $request,
+                            $this->container->call($route->action())
+                        );
+                    });
+                die($response);
+            } catch (Throwable $e) {
+                die((new ExceptionHandler($e))->handle());
+            }
         };
     }
 

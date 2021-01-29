@@ -3,7 +3,9 @@
 namespace Atomic\Routing;
 
 use Closure;
+use Throwable;
 use Illuminate\Container\Container;
+use Atomic\Foundation\Exceptions\ExceptionHandler;
 use Atomic\Http\Request;
 use Atomic\Support\Pipeline;
 use WP_REST_Request;
@@ -253,13 +255,19 @@ class Router
             $request->setRouteResolver(function () use ($route) {
                 return $route;
             });
+            try {
+                return (new Pipeline($this->container))
+                    ->send($request->merge($wpRequest->get_url_params()))
+                    ->through($this->gatherRouteMiddleware($route))
+                    ->then(function ($request) use ($route) {
 
-            return (new Pipeline($this->container))
-                ->send($request->merge($wpRequest->get_url_params()))
-                ->through($this->gatherRouteMiddleware($route))
-                ->then(function ($request) use ($route) {
-                    return $this->container->call($route->action(), ['request' => $request]);
-                });
+                        $this->container->instance('request', $request);
+
+                        return $this->container->call($route->action());
+                    });
+            } catch (Throwable $e) {
+                die((new ExceptionHandler($e))->handle());
+            }
         };
     }
 

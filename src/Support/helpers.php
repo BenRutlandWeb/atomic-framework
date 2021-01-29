@@ -3,7 +3,6 @@
 use Atomic\Auth\AuthManager;
 use Atomic\Foundation\Application;
 use Atomic\Foundation\Mix;
-use Atomic\Routing\UrlGenerator;
 use Atomic\Support\Collection;
 
 if (!function_exists('ajax_route')) {
