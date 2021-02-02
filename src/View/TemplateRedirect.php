@@ -53,6 +53,8 @@ class TemplateRedirect
         foreach ($this->templateHierarchy as $type) {
             $events->listen("{$type}_template_hierarchy", [$this, 'filterTemplates']);
         };
+
+        $events->listen('get_search_form', [$this, 'filterSearchformTemplate']);
     }
 
     /**
@@ -64,11 +66,7 @@ class TemplateRedirect
      */
     public function filterTemplates(array $templates): array
     {
-        $path = str_replace(
-            $this->app->basePath() . DIRECTORY_SEPARATOR,
-            '',
-            $this->app['config']['view.path']
-        );
+        $path = $this->getTemplatePath();
 
         return collect($templates)
             ->map(function ($template) use ($path) {
@@ -76,5 +74,33 @@ class TemplateRedirect
             })
             ->flatten()
             ->toArray();
+    }
+
+    /**
+     * Filter the searchform location
+     *
+     * @return bool
+     */
+    public function filterSearchformTemplate(): bool
+    {
+        $path = $this->getTemplatePath();
+
+        locate_template(["{$path}/searchform.php", 'searchform.php'], true, false);
+
+        return false;
+    }
+
+    /**
+     * Get the template path
+     *
+     * @return string
+     */
+    protected function getTemplatePath(): string
+    {
+        return str_replace(
+            $this->app->basePath() . DIRECTORY_SEPARATOR,
+            '',
+            $this->app['config']['view.path']
+        );
     }
 }
